@@ -90,6 +90,7 @@ export default function App() {
 				 {diceElements}
 			</div>
 			<button ref={buttonRef} className='roll-dices' onClick={rollDices}>{allHeld ? "New Game" : "Roll"}</button>
+			{allHeld && <p className='win-message'>You won! Press "New Game" to start again.</p>}
 		</main>
 	 )
 } 
