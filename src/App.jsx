@@ -9,6 +9,24 @@ export default function App() {
 	const buttonRef = React.useRef(null)
 	const allHeld = dices.every(dice => dice.isHeld) && dices.every(dice => dice.value === dices[0].value)
 
+	const [windowSize, setWindowSize] = React.useState({
+		width: window.innerWidth,
+		height: window.innerHeight
+	});
+
+	React.useEffect(() => {
+		function handleResize() {
+			setWindowSize({
+				width: window.innerWidth,
+				height: window.innerHeight
+			});
+		}
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
 	React.useEffect(() => {
 		if(allHeld) {
 			buttonRef.current.focus()
@@ -56,7 +74,11 @@ export default function App() {
 
 	 return (
 		<main>
-			{allHeld && <Confetti />}
+			{allHeld && <Confetti
+				width={windowSize.width}
+				height={windowSize.height}
+			/>}
+			
 			<div aria-live="polite" className='sr-only'>
 				{allHeld && <p>Congratulations! You won! Press "New Game" to start again.</p>}
 			</div>
